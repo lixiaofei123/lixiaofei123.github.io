@@ -1,0 +1,6 @@
+a#totop(href='#top')
+if theme.cdn.enable
+  script(type='text/javascript', src=theme.cdn.path + '/static/js/totop.js', async)
+else
+  script(type='text/javascript', src=url_for(theme.js) + '/totop.js' + '?v=' + theme.version, async)
+

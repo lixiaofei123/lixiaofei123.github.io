@@ -1,0 +1,150 @@
+##########################
+## Site Config Settings ##
+##########################
+
+# Theme version
+version: 2.0.3
+
+# Theme tone
+dark: false #true/false
+
+
+# Header
+menu:
+  - page: home
+    directory: .
+    icon: fa-home
+  - page: archive
+    directory: archives/
+    icon: fa-archive
+  - page: about
+    directory: about/
+    icon: fa-user
+  - page: rss
+    directory: atom.xml
+    icon: fa-rss
+
+# Sidebar
+widgets:
+  - aboutme
+  - recent_posts
+  - category
+  - tag
+  - archive
+  #- weibo
+  - links
+
+# Toc
+toc:
+  enable: true
+  number: false
+
+# Static files
+js: js
+css: css
+share_path: share
+
+# Date_formats
+date_formats:
+  archive: "MM月DD日"
+  category: "YYYY/MM/DD"
+  post: "MMM DD, YYYY"
+  tag: "YYYY/MM/DD"
+
+# Extensions
+Plugins:
+  hexo-generator-feed
+  hexo-generator-sitemap
+  hexo-generator-baidu-sitemap
+
+#Feed Atom
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+
+#sitemap
+sitemap:
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
+
+#Local search
+local_search: true ## Use a javascript-based local search engine, true/false.
+
+#Copyright
+copyright: 
+  enable: true #display article copyright information, true/false.
+  describe: 
+
+# MathJax Support
+mathjax:
+  enable: false  #true/false.
+  cdn: //cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML
+
+#Cmments
+comment:
+  duoshuo: #chaooo ## duoshuo_shortname
+  disqus: 
+  livere: ## 来必力(data-uid)
+  uyan: ## 友言(uid)
+  cloudTie: ## 网易云跟帖(productKey)
+  changyan: ## 畅言需在下方配置两个参数，此处不填。
+    appid: ## 畅言(appid)
+    appkey: ##畅言(appkey)
+
+gitalk:
+  enable: true ## If you want to use Gitment comment system please set the value to true.
+  owner: lixiaofei123 ## Your GitHub ID, e.g. username
+  repo: lixiaofei123.github.io ## The repository to store your comments, make sure you're the repo's owner, e.g. gitalk.github.io
+  client_id: e0d8e5794f0f40230bf3 ## GitHub client ID, e.g. 75752dafe7907a897619
+  client_secret: 0477211910cb015e5d84e861e6d9b556a6c2f23f ## GitHub client secret, e.g. ec2fb9054972c891289640354993b662f4cccc50
+  admin: lixiaofei123 ## Github repo owner and collaborators, only these guys can initialize github issues.
+  language: zh-CN ## Language
+  pagerDirection: last # Comment sorting direction, available values are last and first.
+
+#Share
+local_share: true ##本地分享
+baidu_share: #true ## 百度分享
+JiaThis_share: ##true ##JiaThis分享
+duoshuo_share: #true ##true 多说分享必须和多说评论一起使用。
+addToAny_share: # AddToAny share. Empty list hides. List items are service name at url. For ex: email for '<a href="https://www.addtoany.com/add_to/email?linkurl=...'
+#  - twitter
+#  - baidu
+#  - facebook
+#  - google_plus
+#  - linkedin
+#  - email
+
+# Analytics
+google_analytics: ## Your Google Analytics tracking id, e.g. UA-42025684-2
+baidu_analytics: ## Your Baidu Analytics tracking id, e.g. 1006843030519956000
+
+# Miscellaneous
+show_category_count: true ## If you want to show the count of categories in the sidebar widget please set the value to true.
+widgets_on_small_screens: true ## Set to true to enable widgets on small screens.
+busuanzi: false ## If you want to use Busuanzi page views please set the value to true.
+
+# About page
+about:
+  photo_url: https://static.huiyuanai.com/static/img/touxiang.jpeg
+  items:
+  - label: email
+    url: 326256365@qq.com
+    title: 326256365@qq.com
+  - label: github
+    url: https://github.com/lixiaofei123
+    title: lixiaofei123
+
+
+# Links widget. Empty links will hide widget.
+links:
+  - title: whisperchi的博客
+    url: https://whisperchi.com
+  - title: 套陆的博客
+    url: https://blog.tlhub.cn/
+
+cdn:
+  enable: false
+  path: https://static.huiyuanai.com
+

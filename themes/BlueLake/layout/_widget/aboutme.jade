@@ -1,0 +1,21 @@
+.widget
+  .widget-title
+    i(class='fa fa-you')= ' 本博客'
+  div(class='aboutme')
+    img(class='avatar' src=theme.about.photo_url)
+    br
+    br
+    span='作者:' + config.author
+    div(class='labels')
+      div(class='label line')
+        a(href='javascript:void(0)')
+          span(class='text')=site.posts.length
+          span(class='name')='文章'
+      div(class='label line')
+        a(href='#categories-link')
+          span(class='text')=site.categories.length
+          span(class='name')='分类'
+      div(class='label')
+        a(href='#tags-link')
+          span(class='text')=site.tags.length
+          span(class='name')='标签'
