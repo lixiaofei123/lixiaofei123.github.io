@@ -301,6 +301,50 @@ body {
   color: #40759b;
   text-decoration: underline;
 }
+#sidebar .widget .qrcode {
+  text-align: center;
+}
+#sidebar .widget .qrcode #qrcode-img {
+  margin: 20px auto 20px auto;
+  width: 140px;
+  height: 140px;
+}
+#sidebar .widget .aboutme {
+  text-align: center;
+  padding-top: 15px;
+}
+#sidebar .widget .aboutme .avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+}
+#sidebar .widget .aboutme .labels {
+  width: 198px;
+  height: 40px;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+#sidebar .widget .aboutme .labels .label {
+  float: left;
+  width: 65px;
+}
+#sidebar .widget .aboutme .labels .label a {
+  text-decoration: none;
+}
+#sidebar .widget .aboutme .labels .label .text {
+  font-size: 16px;
+  color: #222;
+  display: block;
+}
+#sidebar .widget .aboutme .labels .label .name {
+  font-size: 12px;
+  color: #999;
+}
+#sidebar .widget .aboutme .labels .line {
+  border-right: 1px solid #999;
+}
 #sidebar .widget .widget-title,
 #sidebar .widget .comments-title {
   color: #40759b;
@@ -346,6 +390,7 @@ body {
   display: block;
   height: 52px;
 }
+/* about me*/
 #search-form {
   position: absolute;
   bottom: -52px;
