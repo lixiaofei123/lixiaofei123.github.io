@@ -18,7 +18,7 @@ tags:
 
 打开网址 https://appmaker.xyz/web2desk ，如下图
 
-![](create-native-app-from-web-url/appmaker.png)
+![](https://static.huiyuanai.com/lixfio/image/create-native-app-from-web-url/appmaker.png)
 
 
 

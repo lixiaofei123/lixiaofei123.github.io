@@ -31,4 +31,4 @@ Categories=Application;Development;
 
 保存以后，进入到ubuntu的应用程序列表里就可以看到typora了，是不是很简单呢??
 
-![图标已经出来了](ubuntu-create-desktop-icon/typora.png)
+![图标已经出来了](https://static.huiyuanai.com/lixfio/image/ubuntu-create-desktop-icon/typora.png)
