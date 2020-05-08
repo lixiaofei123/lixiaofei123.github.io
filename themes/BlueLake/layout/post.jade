@@ -47,6 +47,15 @@ block tocmodel
 block qrcode
   != partial('_widget/qrcode.jade')
 
+block attachments
+  != partial('_widget/attachments.jade')
+
+block mywidgetjs
+  if theme.cdn.enable
+    script(type='text/javascript', src=theme.cdn.path + '/static/js/mywidget.js', async)
+  else
+    script(type='text/javascript', src=url_for(theme.js) + '/mywidget.js' + '?v=' + theme.version, async)
+
 block pageOnly
   if theme.toc.enable == true 
     if theme.cdn.enable

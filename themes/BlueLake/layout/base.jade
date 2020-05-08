@@ -75,6 +75,7 @@ html(lang='#{config.language}')
             if theme.local_search == true
               .search-pla
               block tocmodel
+              block attachments
               block qrcode
             each item in theme.widgets
               != partial('_widget/' + item + '.jade')
@@ -86,3 +87,4 @@ html(lang='#{config.language}')
       include _partial/footer
     include _partial/after_footer
     block pageOnly
+    block mywidgetjs
