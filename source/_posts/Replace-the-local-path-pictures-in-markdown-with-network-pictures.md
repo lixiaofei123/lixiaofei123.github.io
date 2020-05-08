@@ -36,7 +36,7 @@ tags:
 ```bash
 go get github.com/lixiaofei123/md-img-oss
 ```
-如果本地没有golang环境，[点击这里](https://github.com/lixiaofei123/md-img-oss/releases)下载对应平台的软件。
+如果本地没有golang环境，点击这里[附件:md-img-oss](https://github.com/lixiaofei123/md-img-oss/releases)下载对应平台的软件。
 
 ### 使用
 

@@ -46,6 +46,23 @@ strong, b, em
   font-weight: bold
 .hidden1
   display: none 
+
+@font-face
+  font-family: "icoFont"
+  src: url('../iconfont/icofont/icofont.eot')
+  src: url('../iconfont/icofont/icofont.eot') format("embedded-opentype"),url('../iconfont/icofont/icofont.woff') format("woff"),url('../iconfont/icofont/icofont.ttf') format("truetype"),url('../iconfont/icofont/icofont.svg') format("svg")
+.icofont
+  font-size: 16px
+  font-style: normal
+  &:before
+    font-family: "icoFont"!important
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+    text-rendering: auto
+.icofont-qr-code:before
+  content: "\efc8"
+.icofont-zipped:before
+  content: "\f02e"
   
 /* iconfont */
 @font-face
