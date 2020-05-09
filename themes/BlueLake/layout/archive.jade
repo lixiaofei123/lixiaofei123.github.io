@@ -13,7 +13,7 @@ block content
   block articleCalendajs
   .post
     - var dict = {}
-    each posts, date in _.groupBy(page.posts.toArray(), function(p){return p.date.format('YYYY/MM/DD')})
+    each posts, date in _.groupBy(site.posts.toArray(), function(p){return p.date.format('YYYY/MM/DD')})
       - dict[date]=posts.length
     - var currentDay = Math.floor(new Date().getTime() / 86400000)
     - var beforeoneyear = currentDay - 365
