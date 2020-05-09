@@ -13,7 +13,7 @@ function loadPostAttachments(){
     let find = false;
     let postContent = document.getElementsByClassName("post-content")[0].innerHTML
     while (matches = re.exec(postContent)) {
-        html += "<li class='attchment-item'><a href='" + matches[1] + "' target='_blank' >" + matches[2] + "</a></li>";
+        html += "<li class='attchment-item'><a href='" + matches[1] + "' target='_blank' ><b>" + matches[2] + "</b></a></li>";
         find = true;
     };
     if (find) {
