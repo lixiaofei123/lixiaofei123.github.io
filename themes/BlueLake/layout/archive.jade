@@ -1,9 +1,68 @@
 extends base
 
+
+block articleCalendajs
+  if theme.cdn.enable
+    script(type='text/javascript', src=theme.cdn.path + '/static/js/articlecalenda.js', async)
+  else
+    script(type='text/javascript', src=url_for(theme.js) + '/articlecalenda.js' + '?v=' + theme.version, async)
+
 block title
   title= __('archive') + ' | ' + config.title
 block content
+  block articleCalendajs
   .post
+    - var dict = {}
+    each posts, date in _.groupBy(page.posts.toArray(), function(p){return p.date.format('YYYY/MM/DD')})
+      - dict[date]=posts.length
+    - var currentDay = Math.floor(new Date().getTime() / 86400000)
+    - var beforeoneyear = currentDay - 365
+    svg(width="785" height="140" class="contrib-calendar" id="articleCalendar")
+      - beforeoneyearDay = new Date(beforeoneyear * 86400000)
+      - day = beforeoneyearDay.getDay()
+      - cellWidth = 11
+      - translateX = (cellWidth + 3)
+      - if(day === 0) day = 7
+      - if(day !== 1)
+        g(transform='translate(' + translateX + ', 21)')
+          - translateX += (cellWidth + 2)
+          - for(let d = day; d <= 7; d ++)
+            - date = new Date((beforeoneyear + d - day)  * 86400000)
+            - dateStr =date.getFullYear() + "/" +("0"+(date.getMonth()+1)).slice(-2) + "/"  + ("0" + date.getDate()).slice(-2)
+            - postnums = dict[dateStr] ?  dict[dateStr] : 0
+            - fill="#ededed"
+            - if (postnums === 1) {fill= "#acd5f2"}
+            - if (postnums === 2) {fill= "#7fa8c9"}
+            - if (postnums === 3) {fill= "#527ba0"}
+            - if (postnums > 3) {fill= "#254e77"}
+            rect(text=dateStr day=date.getDay() x=0 y=(d - 1)*(cellWidth + 2) postnums=postnums  width=cellWidth height=cellWidth fill=fill)
+      - startDate =  beforeoneyear +  ( 8 - day)
+      - for(var time = startDate; time <= currentDay; time +=7) 
+          g(transform='translate('+ translateX +', 21)')
+            - translateX += (cellWidth + 2)
+            - for(let d = 0; d < 7 && (time + d) <= currentDay; d++)
+              - date = new Date((time + d)  * 86400000)
+              - dateStr =date.getFullYear() + "/" +("0"+(date.getMonth()+1)).slice(-2) + "/"  + ("0" + date.getDate()).slice(-2)
+              - postnums = dict[dateStr] ?  dict[dateStr] : 0
+              - fill="#ededed"
+              - if (postnums === 1) {fill= "#acd5f2"}
+              - if (postnums === 2) {fill= "#7fa8c9"}
+              - if (postnums === 3) {fill= "#527ba0"}
+              - if (postnums > 3) {fill= "#254e77"}
+              rect(text=dateStr day=date.getDay() x=0 y=d*(cellWidth + 2) postnums=postnums width=cellWidth height=cellWidth fill=fill)
+      g(transform="translate(18, 120)")
+        rect(width=(cellWidth + 2) height=(cellWidth + 2) text="未发表博客" x=0 y=0 fill="#ededed")
+        rect(width=(cellWidth + 2) height=(cellWidth + 2) text="发表了1篇博客" x=17 y=0 fill="#acd5f2")
+        rect(width=(cellWidth + 2) height=(cellWidth + 2) text="发表了2篇博客" x=34 y=0 fill="#7fa8c9")
+        rect(width=(cellWidth + 2) height=(cellWidth + 2) text="发表了3篇博客" x=51 y=0 fill="#527ba0")
+        rect(width=(cellWidth + 2) height=(cellWidth + 2) text= "发表了大于3篇博客"  x=68 y=0 fill="#254e77")
+      g(transform="translate(18, 0)")
+        - let monWidth = 55
+        - let currentMonth = new Date().getMonth() + 1
+        - for(let index = 0; index < 13; index ++)
+          - month =  (currentMonth + index) % 12
+          - if(month === 0) month = 12
+          text( x=monWidth * index  y=12 )= month + "月"
     .post-archive
       .archive-wrap
         each posts, year in _.groupBy(page.posts.toArray(), function(p){return -p.date.format('YYYY')})

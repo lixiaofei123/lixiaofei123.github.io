@@ -25,3 +25,4 @@ function loadPostAttachments(){
     };
     document.getElementsByClassName("attachments")[0].innerHTML = html;
 }
+

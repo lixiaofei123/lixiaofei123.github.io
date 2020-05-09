@@ -16,6 +16,8 @@ input:-webkit-autofill
   -webkit-box-shadow: 0 0 0px 1000px white inset
 div
   box-sizing: border-box
+rect
+  cursor: pointer;
 a, button.submit
   color: #40759b
   text-decoration: none
@@ -961,7 +963,12 @@ table
   td
     padding: 5px 10px
     border 1px solid #d8e2eb
+@media print,screen and (max-width : 80em)
+  #articleCalendar
+    display: none
 @media print,screen and (max-width : 56.25em)
+  #articleCalendar
+    display: none
   .body_container
     padding: 0 30px
   .content_container
@@ -972,6 +979,8 @@ table
     padding: 20px
 /* middle*/
 @media print,screen and (max-width: 48em)
+  #articleCalendar
+    display: none
   .layout-l
     width: 100%
   .layout-r
@@ -1039,6 +1048,8 @@ table
     left: 0
 /* small*/
 @media print,screen and (max-width: 35.5em)
+  #articleCalendar
+    display: none
   .content_container
     padding-right: 0
   .body_container
@@ -1063,6 +1074,8 @@ table
       border-radius: 15px 15px 0 15px
       font-size: 12px
 @media print,screen and (max-width: 25em) 
+  #articleCalendar
+    display: none
   #nav-menu
     a
       padding: 0 10px 0 8px
