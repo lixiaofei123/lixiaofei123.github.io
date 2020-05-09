@@ -12,9 +12,11 @@ function loadPostAttachments(){
     let html = "";
     let find = false;
     let postContent = document.getElementsByClassName("post-content")[0].innerHTML
+    let index = 1;
     while (matches = re.exec(postContent)) {
-        html += "<li class='attchment-item'><a href='" + matches[1] + "' target='_blank' ><b>" + matches[2] + "</b></a></li>";
+        html += "<li class='attchment-item'><a href='" + matches[1] + "' target='_blank' ><b>" + index + ". " +matches[2] + "</b></a></li>";
         find = true;
+        index ++;
     };
     if (find) {
         html = "<ul class='attchmentlist'>" + html + "</ul>";
