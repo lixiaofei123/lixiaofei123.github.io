@@ -145,6 +145,6 @@ links:
     url: https://blog.tlhub.cn/
 
 cdn:
-  enable: true
+  enable: false
   path: https://static.huiyuanai.com
 
