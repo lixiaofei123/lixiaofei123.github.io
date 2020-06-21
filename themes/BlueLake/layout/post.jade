@@ -50,6 +50,12 @@ block qrcode
 block attachments
   != partial('_widget/attachments.jade')
 
+block clipboardjs
+  if theme.cdn.enable
+    script(type='text/javascript', src=theme.cdn.path + '/static/js/clipboard.min.js', async)
+  else
+    script(type='text/javascript', src=url_for(theme.js) + '/clipboard.min.js' + '?v=' + theme.version, async)
+
 block mywidgetjs
   if theme.cdn.enable
     script(type='text/javascript', src=theme.cdn.path + '/static/js/mywidget.js', async)
