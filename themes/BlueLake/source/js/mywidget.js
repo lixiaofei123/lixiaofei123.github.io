@@ -4,7 +4,11 @@ window.onload = function(){
 }
 
 function showPostQRCode(){
-    new QRCode(document.getElementById('qrcode-img'), {text: window.location.href , width: 140, height: 140});
+    let href = window.location.href
+    if(href.indexOf("/?") != -1){
+        href= href.substring(0,href.lastIndexOf("/?") + 1)
+    }
+    new QRCode(document.getElementById('qrcode-img'), {text: href, width: 140, height: 140});
 }
 
 function loadPostAttachments(){
