@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="李小飞的博客"><title>表分区 | 李小飞</title><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/font.css"><link rel="stylesheet" href="https://static.lixfio.huiyuanai.cn/static/css/gitalk.css"><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/style.css"><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/highlight.css"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">表分区</h1><a id="logo" href="/.">李小飞</a><p class="description">记录工作中遇到的问题</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">表分区</h1><div class="post-meta"><a href="/2021/05/10/table-partitioning/#comments" class="comment-count"></a><p><span class="date">May 10, 2021</span><span><a href="/categories/postgresql/" class="category">postgresql</a></span></p></div><div class="post-content"><p>表分区是指将一个逻辑上的大表分成几个物理小块。表分区可以提供下面几个好处</p>
+<ol>
+<li>当要查询的数据在同一个分区或者少数几个分区的时候，可以显著提高查询性能。分区有效代替了索引树的上层部分，看起来就像重度使用的部分放在了内存中一样。个人理解是，如果使用索引，数据库每次要从磁盘中加载索引，由于索引从上到下扫描索引树来查找数据，所以对索引树的上层部分的查询是很频繁的。使用了分区以后，分区数据已经相当于索引树的上层部分了，相当于最经常使用的部分已经放在了内存中了(原因参考最佳实践第4条)。</li>
+<li>当查询或者更新占据单独的一个分区的很大比例的时候，通过使用顺序扫描会比使用索引有性能提升。因为索引会在整个表上进行随机读取，随机读取比顺序读取慢得多。</li>
+<li>如果使用了设计模式的话，批量加载和删除可以通过分区来完成。直接加载某个分区的数据或者直接删除某个分区的数据要比批量删除快得多。</li>
+<li>很少使用的数据可以被迁移到便宜的介质上</li>
+</ol>
+<p>postgres支持的几个默认的分区方法</p>
+<ol>
+<li><p>Range Partitioning</p>
+<p>范围分区是根据表中的某个或者某几个字段进行分区，例如 1-10 11-20</p>
+</li>
+<li><p>List Partitioning</p>
+<p>通过显式的列出表中的键值对来进行分区</p>
+</li>
+<li><p>Hash Partitioning</p>
+<p>通过为每个分区指定一个除数和余来进行分区。即每一行的hash值除以除数然后得到余，根据余值来放到对应的分区里</p>
+</li>
+</ol>
+<p><strong>分区使用示例</strong></p>
+<ol>
+<li><p>通过指定partitioning by 创建分区表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement (    </span><br><span class="line">    city_id         <span class="built_in">int</span> <span class="keyword">not</span> <span class="literal">null</span>,    </span><br><span class="line">    logdate         <span class="built_in">date</span> <span class="keyword">not</span> <span class="literal">null</span>,    </span><br><span class="line">    peaktemp        <span class="built_in">int</span>,    </span><br><span class="line">    unitsales       <span class="built_in">int</span>) <span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span> (logdate);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分别创建每一个分区</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2006m02 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> measurement    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">'2006-02-01'</span>) <span class="keyword">TO</span> (<span class="string">'2006-03-01'</span>);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2006m03 <span class="keyword">PARTITION</span> <span class="keyword">OF</span> measurement    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">'2006-03-01'</span>) <span class="keyword">TO</span> (<span class="string">'2006-04-01'</span>) <span class="keyword">PARTITION</span> <span class="keyword">BY</span> <span class="keyword">RANGE</span> (peaktemp); <span class="comment">#创建分区表的分区表</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如果插入一条不对应任何分区的数据，那么插入会报错，应该手动创建对应的分区</p>
+<ol start="3">
+<li><p>创建索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> <span class="keyword">ON</span> measurement (logdate);</span><br></pre></td></tr></table></figure>
+<p>创建索引是非必须的，分区表上的索引和约束条件都是虚拟的，实际上的索引位置和约束条件都在分区中</p>
+</li>
+<li><p>确定 数据库配置中 enable_partition_pruning 的值不是禁用状态</p>
+</li>
+</ol>
+<p><strong>分区维护</strong></p>
+<ol>
+<li><p>删除某个分区的数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> measurement_y2006m02; <span class="comment"># 快速删除数百万条数据，需要在主表上加ACCESS EXCLUSIVE</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> measurement DETACH <span class="keyword">PARTITION</span> measurement_y2006m02; <span class="comment">#接触分区和分区表的关系，同时保留数据，数据可以做进一步的分析</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>增加新的分区</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE measurement_y2008m02 PARTITION OF measurement    FOR VALUES FROM (&apos;2008-02-01&apos;) TO (&apos;2008-03-01&apos;)    TABLESPACE fasttablespace;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>先创建表，再创建分区表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> measurement_y2008m02  (<span class="keyword">LIKE</span> measurement <span class="keyword">INCLUDING</span> <span class="keyword">DEFAULTS</span> <span class="keyword">INCLUDING</span> <span class="keyword">CONSTRAINTS</span>)  <span class="keyword">TABLESPACE</span> fasttablespace;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> measurement_y2008m02 <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> y2008m02   <span class="keyword">CHECK</span> ( logdate &gt;= <span class="built_in">DATE</span> <span class="string">'2008-02-01'</span> <span class="keyword">AND</span> logdate &lt; <span class="built_in">DATE</span> <span class="string">'2008-03-01'</span> );</span><br><span class="line">\copy measurement_y2008m02 from 'measurement_y2008m02'</span><br><span class="line"><span class="comment">-- possibly some other data preparation work</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> measurement ATTACH <span class="keyword">PARTITION</span> measurement_y2008m02    <span class="keyword">FOR</span> <span class="keyword">VALUES</span> <span class="keyword">FROM</span> (<span class="string">'2008-02-01'</span>) <span class="keyword">TO</span> (<span class="string">'2008-03-01'</span> );</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="4">
+<li><p>创建索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> measurement_usls_idx <span class="keyword">ON</span> <span class="keyword">ONLY</span> measurement (unitsales);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> measurement_usls_200602_idx    <span class="keyword">ON</span> measurement_y2006m02 (unitsales);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">INDEX</span> measurement_usls_idx    ATTACH <span class="keyword">PARTITION</span> measurement_usls_200602_idx;</span><br></pre></td></tr></table></figure>
+<p> 同样的方式可以用在primary和unique上    </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="keyword">ONLY</span> measurement <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span> (city_id, logdate);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> measurement_y2006m02 <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span> (city_id, logdate);</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">INDEX</span> measurement_city_id_logdate_key    ATTACH <span class="keyword">PARTITION</span> measurement_y2006m02_city_id_logdate_key</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>分区表限制</strong></p>
+<ol>
+<li>分区表的唯一约束必须包含所有的分区键列。因为各个分区只能保证在自己表中的唯一约束性，保证不了全表的唯一约束性，因此分区表自身必须负责在不同的分区中没有重复。如果唯一约束包含了分区键，那么各个分区对应的唯一约束中的分区键都不同，因此也就保证了在所有分区中的唯一约束都成立</li>
+<li>无法创建排除约束（exclusion constraint），原因同上，分区不能跨区排除</li>
+<li>insert的BEFORE ROW 触发器不能更改新行的目标区。即 在BEFORE ROW触发器中修改了分区键的值，分区的结果也不会改变。</li>
+<li>分区表 临时表和永久表不能混用。分区表是临时的，那么分区也是临时的，分区表是永久的，那么分区也是永久的。</li>
+</ol>
+<p>​    分区表的幕后是分区和分区表是继承关系，但并不是可以使用所有的继承特性。尤其是分区不能有分区表中不存在的字段，分区表和分区也并不能继承其它表。</p>
+<p>​    不能使用的继承特性有</p>
+<ol>
+<li>分区不能有分区表中不存在的字段</li>
+<li>分区表的CHECK和NOT NULL约束会被它的所有分区继承。不能在分区表上使用被标记了NO INHERIT的CHECK。如果分区表的字段上有NOT NULL的话，分区的字段上的NOT NULL不能被删除</li>
+<li><p>当分区表上没有任何分区的时候可以使用ONLY来增加约束，当存在分区的时候，使用ONLY会报错。替代的可以在分区上添加和删除（如果父表中没有）约束  <span style="color:red">后续再看</span></p>
+</li>
+<li><p>分区表本身没有任何数据，使用TRUNCATE ONLY会报错</p>
+<p><span style="color:red">跳过了使用继承的分区，后面再看</span></p>
+<p><strong>分区修剪(Partition Pruning)</strong></p>
+</li>
+</ol>
+<p>分区修剪是一种提高性能的查询优化技术。</p>
+<p>例如</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> enable_partition_pruning = <span class="keyword">on</span>;                 <span class="comment">-- the default</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">count</span>(*) <span class="keyword">FROM</span> measurement <span class="keyword">WHERE</span> logdate &gt;= <span class="built_in">DATE</span> <span class="string">'2008-01-01'</span>;</span><br></pre></td></tr></table></figure>
+<p>如果没有分区修剪，那么pg会扫描分区表的所有的分区来计算数量。如果开启了分区修剪，计划器会查看每个分区的定义来提前排除掉不需要查询的分区。</p>
+<p>分区修剪是基于分区键的而不是基于索引的，因此是否对分区键建立索引取决于你需要查询分区的一大部分还是一小部分，如果是一大部分，那么建立索引是没有用的。</p>
+<p>分区修剪不仅在计划阶段有效，在执行阶段也有效</p>
+<p><strong>分区约束排除(Constraint  exclusion)</strong></p>
+<p>Constraint  exclusion是一种类似于分区修剪的查询优化技术。主要是利用CHECK约束实现，在计划阶段有效，比分区修剪慢</p>
+<p>默认情况下constraint_exclusion的值是partition，这个值表示约束排除仅工作在继承分区表上，on代表在所有的查询上都检查check约束</p>
+<p>注意点：</p>
+<ol>
+<li>约束排除仅在计划阶段有用</li>
+<li>约束排除仅在查询的where条件包含常量的时候有用。</li>
+<li>分区的约束应该简单，否则约束排除无法判断是否需要访问子表。</li>
+</ol>
+<p><strong>最佳实践</strong></p>
+<ol>
+<li><p>最关键一点是你选择的分区的列（或者多列）。通常最好的选择是那些经常出现在where中的列。与分区绑定约束兼容的where可以用来修剪不需要的分区。然而，由于primary key和 unique约束也可能做出其它选择。删除数据也是一个计划分区策略的一个考虑因素。</p>
+</li>
+<li><p>选择分区的数量也是一个重要的因素。分区太少导致索引仍然很大和数据的局部性仍然很低。分区太多，会导致更长的查询计划时间和查询计划和执行期间的更高的内存占用。同时，在设置分区的数目的时候，也需要为将来考虑。</p>
+</li>
+<li><p>当预期一个分区会变的很大的时候采用子分区是有用的。而如果采用多列范围分区会导致分区的数目变多，因此要加以限制</p>
+</li>
+<li><p>考虑查询计划和执行阶段的开销是重要的。如果查询能够允许查询计划器修剪大部分分区，那个查询计划器能够处理几千个分区的查询，否则的话，计划时间就会变长内存消耗也会变高，对UPDATE和DELETE同样如此。另一个原因是，服务器的内存消耗会随着时间的推移而显著增长，尤其是大量会话都涉及到分区的情况，这是因为每一个涉及到分区查询的会话都会把分区元数据信息加载到自己的本地内存中</p>
+</li>
+<li><p>数据库负载类型，warehouse(数据仓库 OLAP On-line Analytical Processing)类型使用大量分区要比OLTP(On-line Transaction Processing 在线事务交易)更有意义。因为，在数据仓库类型中，查询计划时间不重要，因为大部分时间都在查询执行时间。根据数据库的负载类型早做决定。</p>
+<p>OLAP 在线分析处理，查询一般都非常复杂，因此执行时间会比较长，主要是提供报表之类的功能</p>
+<p>OLTP 在线事务处理，短时间内会有大量的插入、删除、更新语句，要求非常快的查询处理，</p>
+</li>
+</ol>
+</div><div class="post-copyright"><blockquote><p>原文作者: 李小飞</p><p>原文链接: <a href="https://www.lixf.io/2021/05/10/table-partitioning/">https://www.lixf.io/2021/05/10/table-partitioning/</a></p><p>版权声明: 转载请注明出处(必须保留作者署名及链接)</p></blockquote></div><div class="tags"><a href="/tags/数据库/">数据库</a><a href="/tags/postgresql/">postgresql</a></div><div class="post-share"><div class="social-share"><span>分享到:</span></div></div><div class="post-nav"><a href="/2021/05/19/git-set-proxy/" class="pre">git和npm设置代理</a><a href="/2021/05/10/schema-and-search-path/" class="next">schema 和 search_path</a></div><div id="comments"><div id="container"><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/gitalk.min.js"></script><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/md5.js"></script><script>var gitalk = new Gitalk({
+  clientID: 'e0d8e5794f0f40230bf3',
+  clientSecret: '0477211910cb015e5d84e861e6d9b556a6c2f23f',
+  repo: 'lixiaofei123.github.io',
+  owner: 'lixiaofei123',
+  admin: ['lixiaofei123'],
+  id: md5(window.location.pathname),
+  distractionFreeMode: false,
+  language: 'zh-CN',
+  pagerDirection: 'last',
+  proxy: 'https://cors.huiyuanai.cn/https://github.com/login/oauth/access_token'
+})
+gitalk.render('container')</script></div></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div></div><div class="widget"><div class="widget-title"><i class="icofont icofont-zipped"> 附件列表</i></div><div class="attachments"><span>正在加载本文附件</span></div></div><div class="widget"><div class="widget-title"><i class="icofont icofont-qr-code"> 二维码</i></div><div class="qrcode"><div id="qrcode-img"></div><span>扫一扫在手机上观看本页面</span></div></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> 关于我</i></div><div class="aboutme"><img src="https://static.lixfio.huiyuanai.cn/static/img/touxiang.jpeg" class="avatar"><br><br><span>作者:李小飞</span><div class="labels"><div class="label line"><a href="javascript:void(0)"><span class="text">23</span><span class="name">文章</span></a></div><div class="label line"><a href="#categories-link"><span class="text">9</span><span class="name">分类</span></a></div><div class="label"><a href="#tags-link"><span class="text">33</span><span class="name">标签</span></a></div></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><br><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/05/19/git-set-proxy/">git和npm设置代理</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/10/table-partitioning/">表分区</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/10/schema-and-search-path/">schema 和 search_path</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/10/windows-function/">窗口函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/10/aggregate-function/">聚集函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/05/09/Linux-forbids-remote-login-of-root/">linux禁止root用户远程登录，并修改ssh端口</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/03/26/webrtc-in-ios-weixin-browser/">ios 微信自带浏览器上webrtc不能正常使用的解决方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/21/mapbox-event-conflict2/">解决mapbox中事件冲突的几种方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/06/18/regex-online/">正则表达式在线匹配/替换测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/05/13/text-to-qrcode/">二维码在线生成</a></li></ul></div><div id="categories-link" class="widget"><div class="widget-title"><i class="fa fa-gui"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kubernetes/">kubernetes</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mapbox/">mapbox</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/postgresql/">postgresql</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/webrtc/">webrtc</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/在线工具/">在线工具</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/实用/">实用</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a><span class="category-list-count">1</span></li></ul></div><div id="tags-link" class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/nextcloud/" style="font-size: 15px;">nextcloud</a> <a href="/tags/ocdownloader/" style="font-size: 15px;">ocdownloader</a> <a href="/tags/kubernetes/" style="font-size: 15px;">kubernetes</a> <a href="/tags/markdown/" style="font-size: 15px;">markdown</a> <a href="/tags/图床/" style="font-size: 15px;">图床</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/运维/" style="font-size: 15px;">运维</a> <a href="/tags/ubuntu/" style="font-size: 15px;">ubuntu</a> <a href="/tags/golang学习/" style="font-size: 15px;">golang学习</a> <a href="/tags/数据库/" style="font-size: 15px;">数据库</a> <a href="/tags/postgresql/" style="font-size: 15px;">postgresql</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/在线转换/" style="font-size: 15px;">在线转换</a> <a href="/tags/base64编码/" style="font-size: 15px;">base64编码</a> <a href="/tags/文件转base64/" style="font-size: 15px;">文件转base64</a> <a href="/tags/base64转图片/" style="font-size: 15px;">base64转图片</a> <a href="/tags/k8s/" style="font-size: 15px;">k8s</a> <a href="/tags/helm/" style="font-size: 15px;">helm</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/代理/" style="font-size: 15px;">代理</a> <a href="/tags/在线匹配/" style="font-size: 15px;">在线匹配</a> <a href="/tags/正则表达式/" style="font-size: 15px;">正则表达式</a> <a href="/tags/在线工具/" style="font-size: 15px;">在线工具</a> <a href="/tags/二维码/" style="font-size: 15px;">二维码</a> <a href="/tags/在线生成二维码/" style="font-size: 15px;">在线生成二维码</a> <a href="/tags/webrtc/" style="font-size: 15px;">webrtc</a> <a href="/tags/微信浏览器/" style="font-size: 15px;">微信浏览器</a> <a href="/tags/临时保存/" style="font-size: 15px;">临时保存</a> <a href="/tags/欢迎/" style="font-size: 15px;">欢迎</a> <a href="/tags/博客/" style="font-size: 15px;">博客</a> <a href="/tags/mapbox/" style="font-size: 15px;">mapbox</a> <a href="/tags/前端开发/" style="font-size: 15px;">前端开发</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><br><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> 友情链接</i></div><br><ul></ul><a href="https://whisperchi.com" title="whisperchi的博客" target="_blank">whisperchi的博客</a><ul></ul><a href="https://blog.tlhub.cn/" title="套陆的博客" target="_blank">套陆的博客</a></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> |  <a href="/atom.xml">订阅本站</a> |  <a href="/about/">联系博主</a></p><p><span> Copyright &copy;<a href="/." rel="nofollow">李小飞.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/search.json.js" async></script><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/toctotop.js" async></script><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/share/css/share.css"><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/share/js/social-share.js" charset="utf-8"></script><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/share/js/qrcode.js" charset="utf-8"></script><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/mywidget.js" async></script><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/clipboard.min.js" async></script></body></html>
