@@ -13,13 +13,13 @@ tags:
 
 ## 欢迎访问李小飞的个人博客
 
-![](https://static.huiyuanai.com/lixfio/image/welcome-my-blog/shamo.jpg)
+![](https://static.lixfio.huiyuanai.cn/lixfio/image/welcome-my-blog/shamo.jpg)
 
 
 
-![](https://static.huiyuanai.com/lixfio/image/welcome-my-blog/footbg2.png)
+![](https://static.lixfio.huiyuanai.cn/lixfio/image/welcome-my-blog/footbg2.png)
 
 
 
-![](https://static.huiyuanai.com/lixfio/image/welcome-my-blog/touxiang.jpeg)
+![](https://static.lixfio.huiyuanai.cn/lixfio/image/welcome-my-blog/touxiang.jpeg)
 

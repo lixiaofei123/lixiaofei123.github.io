@@ -34,7 +34,8 @@ if theme.gitalk.enable
         id: md5(window.location.pathname),
         distractionFreeMode: false,
         language: '#{theme.gitalk.language}',
-        pagerDirection: '#{theme.gitalk.pagerDirection}'
+        pagerDirection: '#{theme.gitalk.pagerDirection}',
+        proxy: '#{theme.gitalk.proxy}'
       })
       gitalk.render('container')
 

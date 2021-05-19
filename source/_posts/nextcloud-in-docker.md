@@ -17,19 +17,19 @@ tags:
 
 #### 登录
 
-![登录页面](https://static.huiyuanai.com/lixfio/image/nextcloud-in-docker/login.png)
+![登录页面](https://static.lixfio.huiyuanai.cn/lixfio/image/nextcloud-in-docker/login.png)
 
 
 
 #### 主页
 
-![主页](https://static.huiyuanai.com/lixfio/image/nextcloud-in-docker/main.png)
+![主页](https://static.lixfio.huiyuanai.cn/lixfio/image/nextcloud-in-docker/main.png)
 
 
 
 #### 文件列表
 
-![文件列表](https://static.huiyuanai.com/lixfio/image/nextcloud-in-docker/files.png)
+![文件列表](https://static.lixfio.huiyuanai.cn/lixfio/image/nextcloud-in-docker/files.png)
 
 
 
@@ -37,7 +37,7 @@ tags:
 
 下载速度因个人网络不同而不同。我这里是因为电信的上传带宽只有30M，因此在公网的速度只能达到每秒2兆多。如果在内网访问，速度能达到每秒近百兆
 
-![下载](https://static.huiyuanai.com/lixfio/image/nextcloud-in-docker/downloader.png)
+![下载](https://static.lixfio.huiyuanai.cn/lixfio/image/nextcloud-in-docker/downloader.png)
 
 
 
@@ -63,7 +63,7 @@ docker run -d -p 8080:80 nextcloud
 
 效果如图:
 
-![ocDownloader](https://static.huiyuanai.com/lixfio/image/nextcloud-in-docker/ocdownloader.png)
+![ocDownloader](https://static.lixfio.huiyuanai.cn/lixfio/image/nextcloud-in-docker/ocdownloader.png)
 
 
 
@@ -163,7 +163,7 @@ docker run --detach \
 
 最终效果如图所示，在域名的左边出现了一个代表启用了https的小锁的标志。
 
-![https](https://static.huiyuanai.com/lixfio/image/nextcloud-in-docker/httttttps.png)
+![https](https://static.lixfio.huiyuanai.cn/lixfio/image/nextcloud-in-docker/httttttps.png)
 
 
 
@@ -177,13 +177,13 @@ nextcloud还有很多其它有用的插件，这里介绍两个十分有用的�
 
 用来画思维导图，启用了这个插件以后，我们就可以直接创建思维导图，并进行绘制
 
-![](https://static.huiyuanai.com/lixfio/image/nextcloud-in-docker/mindmap.png)
+![](https://static.lixfio.huiyuanai.cn/lixfio/image/nextcloud-in-docker/mindmap.png)
 
 #### Draw.io
 
 用来画流程图，作用十分类似于国内的在线的ProcessOn。安装了Draw.io后，我们就可以将流程图文件保存在我们自己的服务器上，并且没有数量限制。不过，不像【Mind Map】，这个插件依赖外部的Drawio服务，我们可以选择自行部署，也可以选择直接使用公网的。如果使用公网的Drawio，除了打开的时候速度慢一点，别的和自己搭建的效果是一模一样的。当然，drawio也有对应的docker镜像，就算自己部署，也是特别的容易。
 
-![](https://static.huiyuanai.com/lixfio/image/nextcloud-in-docker/drawio.png)
+![](https://static.lixfio.huiyuanai.cn/lixfio/image/nextcloud-in-docker/drawio.png)
 
 
 

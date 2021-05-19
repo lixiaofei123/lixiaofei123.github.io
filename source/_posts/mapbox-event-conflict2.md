@@ -21,7 +21,7 @@ tags:
       });
 ```
 从下图中可以看出click事件被响应了两次
-![信息打印了两次](https://static.huiyuanai.com/lixfio/image/mapbox-event-conflict/pic1.png)
+![信息打印了两次](https://static.lixfio.huiyuanai.cn/lixfio/image/mapbox-event-conflict/pic1.png)
 
 
 
@@ -60,7 +60,7 @@ e.preventDefault()本身是用来阻止事件发生后的默认行为的。例�
 
 ```
 从下图中可以看出click事件被响应了一次（实际上是两次，但是第二次直接返回了）
-![信息只打印了一次](https://static.huiyuanai.com/lixfio/image/mapbox-event-conflict/pic2.png)
+![信息只打印了一次](https://static.lixfio.huiyuanai.cn/lixfio/image/mapbox-event-conflict/pic2.png)
 
 2. 故意出错
 这个方案不太好，就是故意加一些出错的代码，这样js在执行到出错的代码后就不再往下执行了。
@@ -77,7 +77,7 @@ e.preventDefault()本身是用来阻止事件发生后的默认行为的。例�
       });
 ```
 从下图中可以看出click事件被响应了一次
-![代码出错后不再往下执行](https://static.huiyuanai.com/lixfio/image/mapbox-event-conflict/pic3.png)
+![代码出错后不再往下执行](https://static.lixfio.huiyuanai.cn/lixfio/image/mapbox-event-conflict/pic3.png)
 但是相信这样的代码对于大多数人来说连编译都过不了
 
 3. 重写mapbox的on和off方法
@@ -238,7 +238,7 @@ e.preventDefault()本身是用来阻止事件发生后的默认行为的。例�
 ```
 
 下面是执行结果
-![执行结果](https://static.huiyuanai.com/lixfio/image/mapbox-event-conflict/pic4.png)
+![执行结果](https://static.lixfio.huiyuanai.cn/lixfio/image/mapbox-event-conflict/pic4.png)
 
 
 完整代码请参考[这个地址](https://raw.githubusercontent.com/lixiaofei123/lixiaofei123.github.io/master/2020/06/21/mapbox-event-conflict2/demo)

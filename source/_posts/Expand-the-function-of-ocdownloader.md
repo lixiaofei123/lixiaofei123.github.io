@@ -32,7 +32,7 @@ tags:
 
 这一步，可以使用自己擅长的语言进行开发。如下图所示，是我自己写的一个根据某网站视频链接提取资源链接以及标题的一个小工具
 
-![工具例子](https://static.huiyuanai.com/lixfio/image/Expand-the-function-of-ocdownloader/tool-example.png)
+![工具例子](https://static.lixfio.huiyuanai.cn/lixfio/image/Expand-the-function-of-ocdownloader/tool-example.png)
 
 该工具支持两个参数，proxy参数可以指定代理，videoUrl则是网站视频链接，执行命令后返回的json字符串中包含两个字段，title为标题，url则是提取出的视频链接
 
@@ -136,7 +136,7 @@ if (isset($videotitle) && strlen(trim($videotitle)) > 0) {
 
 将我们修改后的ocdownloader复制到nextcloud的app/custom_apps目录下，然后到应用里启用改插件，就可以使用我们自己写的功能了!!!
 
-![下载页面](https://static.huiyuanai.com/lixfio/image/Expand-the-function-of-ocdownloader/downloadpage.png)
+![下载页面](https://static.lixfio.huiyuanai.cn/lixfio/image/Expand-the-function-of-ocdownloader/downloadpage.png)
 
 
 

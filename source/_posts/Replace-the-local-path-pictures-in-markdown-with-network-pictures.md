@@ -26,9 +26,9 @@ tags:
 综上，我写了一个小工具[md-img-oss](https://github.com/lixiaofei123/md-img-oss)来处理这个问题。这个工具的作用是检测markdown文件中的图片，如果发现图片的路径是本地文件路径，就将这个图片上传到阿里云OSS上,并将原文中的本地图片路径替换为阿里云OSS提供的路径。
 如图，分别是替换前和替换后的效果
 
-![替换前](https://static.huiyuanai.com/lixfio/image/Replace-the-local-path-pictures-in-markdown-with-network-pictures/localpath.png)
+![替换前](https://static.lixfio.huiyuanai.cn/lixfio/image/Replace-the-local-path-pictures-in-markdown-with-network-pictures/localpath.png)
 
-![替换后](https://static.huiyuanai.com/lixfio/image/Replace-the-local-path-pictures-in-markdown-with-network-pictures/networkpath.png)
+![替换后](https://static.lixfio.huiyuanai.cn/lixfio/image/Replace-the-local-path-pictures-in-markdown-with-network-pictures/networkpath.png)
 
 ### 安装md-img-oss
 
@@ -43,7 +43,7 @@ go get github.com/lixiaofei123/md-img-oss
 安装完毕后，执行下面的命令，即可自动替换图片链接
 
 ```bash
-md-img-oss -mddir "C:\Users\Administrator\Desktop\lixiaofei123.github.io\source\_posts" -endpoint oss-cn-shenzhen.aliyuncs.com -accesskeyId <替换成你的accesskeyId> -accessKeySecret <替换成你的accesskeySecret> -bucketName <替换成你的bucketName> -ossDir lixfio/image -domain https://static.huiyuanai.com
+md-img-oss -mddir "C:\Users\Administrator\Desktop\lixiaofei123.github.io\source\_posts" -endpoint oss-cn-shenzhen.aliyuncs.com -accesskeyId <替换成你的accesskeyId> -accessKeySecret <替换成你的accesskeySecret> -bucketName <替换成你的bucketName> -ossDir lixfio/image -domain https://static.lixfio.huiyuanai.cn
 # ossDir 和 domain 是非必须的，可以不需要
 ```
 如果觉得每次都执行这么长的命令不方便的话，可以把这个命令写到脚本里，然后通过执行脚本来运行这条命令
@@ -55,5 +55,5 @@ md-img-oss --help
 ```
 
 下面是执行结果
-![执行结果](https://static.huiyuanai.com/lixfio/image/Replace-the-local-path-pictures-in-markdown-with-network-pictures/output.png)
+![执行结果](https://static.lixfio.huiyuanai.cn/lixfio/image/Replace-the-local-path-pictures-in-markdown-with-network-pictures/output.png)
 

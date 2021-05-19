@@ -102,6 +102,7 @@ gitalk:
   admin: lixiaofei123 ## Github repo owner and collaborators, only these guys can initialize github issues.
   language: zh-CN ## Language
   pagerDirection: last # Comment sorting direction, available values are last and first.
+  proxy: https://cors.huiyuanai.cn/https://github.com/login/oauth/access_token
 
 #Share
 local_share: true ##本地分享
@@ -127,7 +128,7 @@ busuanzi: false ## If you want to use Busuanzi page views please set the value t
 
 # About page
 about:
-  photo_url: https://static.huiyuanai.com/static/img/touxiang.jpeg
+  photo_url: https://static.lixfio.huiyuanai.cn/static/img/touxiang.jpeg
   items:
   - label: email
     url: 326256365@qq.com
@@ -146,5 +147,5 @@ links:
 
 cdn:
   enable: true
-  path: https://static.huiyuanai.com
+  path: https://static.lixfio.huiyuanai.cn
 
