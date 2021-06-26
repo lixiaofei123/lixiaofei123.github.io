@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.lixf.io/"/>
-  <updated>2021-06-26T14:53:06.249Z</updated>
+  <updated>2021-06-26T16:00:36.922Z</updated>
   <id>https://www.lixf.io/</id>
   
   <author>
@@ -17,24 +17,29 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>很久没写博客了</title>
-    <link href="https://www.lixf.io/2021/06/26/I-haven-t-write-blog-for-a-long-time/"/>
-    <id>https://www.lixf.io/2021/06/26/I-haven-t-write-blog-for-a-long-time/</id>
-    <published>2021-06-26T13:32:50.000Z</published>
-    <updated>2021-06-26T14:53:06.249Z</updated>
+    <title>theia editor</title>
+    <link href="https://www.lixf.io/2021/06/26/theia-editor/"/>
+    <id>https://www.lixf.io/2021/06/26/theia-editor/</id>
+    <published>2021-06-26T15:13:52.000Z</published>
+    <updated>2021-06-26T16:00:36.922Z</updated>
     
-    <content type="html"><![CDATA[<p><a href="http://www.lixf.io">www.lixf.io</a></p>]]></content>
+    <content type="html"><![CDATA[<p>今天发现了一个由Eclipse 基金会发布的一个有意思的软件<strong>云端编辑器-Theia</strong>,支持golang、java、Python、C++等多种主流的编程语言，可以用浏览器直接打开，其运行界面和使用方式与VSCode几乎一摸一样，极大降低了使用者的学习成本。</p><h3 id="运行截图"><a href="#运行截图" class="headerlink" title="运行截图"></a>运行截图</h3><p>下面是程序运行的截图，其中包含了我写的一段简单的测试代码，运行起来也没什么问题</p><p><img src="https://static1.huiyuanai.cn/stroage/2021/06/26/23/1624721058-theia_editor.png" alt="theia editor"></p><h3 id="安装说明"><a href="#安装说明" class="headerlink" title="安装说明"></a>安装说明</h3><p>由于我是用docker安装的，因此安装起来也非常简单</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name theia --restart=always -p 3000:3000 -v /data/theia/projects:/home/project:cached theiaide/theia-full</span><br></pre></td></tr></table></figure><p>等容器启动以后，就可以在浏览器通过 ip:3000 访问在线编辑器了。<span style="color:red">但是这时候也仅仅是能访问而已，如果我们尝试创建文件夹或者文件，是不能创建成功的。</span></p><p> 这是因为权限问题导致的，容器内部并不是以root用户运行的容器的主进程，而是以theia用户运行的，因此，需要修改一下/data/theia/projects的权限。</p><p>使用如下命令进入到容器内部</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it theia /bin/bash</span><br></pre></td></tr></table></figure><p>然后执行下面命令查看所有的用户，并找到theia用户，查看其用户ID</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/passwd</span><br></pre></td></tr></table></figure><p>如下图所示</p><p><img src="https://static1.huiyuanai.cn/stroage/2021/06/26/23/1624722638-theia_editor_users.png" alt></p><p>可以看到其用户ID是1000</p><blockquote><p>在新版的linux系统中，新建的普通用户，其用户ID一般都是从1000开始</p></blockquote><p>然后，可以使用下面的命令来更改/data/theia/projects文件夹所属的用户</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R 1000 /data/theia/projects</span><br></pre></td></tr></table></figure><p>更改了文件夹所属的用户以后，此时就应该可以正常的创建文件以及文件夹了</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;&lt;a href=&quot;http://www.lixf.io&quot;&gt;www.lixf.io&lt;/a&gt;&lt;/p&gt;
-
+        &lt;p&gt;今天发现了一个由Eclipse 基金会发布的一个有意思的软件&lt;strong&gt;云端编辑器-Theia&lt;/strong&gt;,支持golang、java、Python、C++等多种主流的编程语言，可以用浏览器直接打开，其运行界面和使用方式与VSCode几乎一摸一样，极大降低了使用者
       
     
     </summary>
     
+      <category term="实用" scheme="https://www.lixf.io/categories/%E5%AE%9E%E7%94%A8/"/>
+    
+    
+      <category term="软件" scheme="https://www.lixf.io/tags/%E8%BD%AF%E4%BB%B6/"/>
+    
+      <category term="编码" scheme="https://www.lixf.io/tags/%E7%BC%96%E7%A0%81/"/>
     
   </entry>
   
