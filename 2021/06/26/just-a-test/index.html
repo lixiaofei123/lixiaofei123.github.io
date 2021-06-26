@@ -1,47 +1,5 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="李小飞的博客"><title>临时复制粘贴处 | 李小飞</title><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/font.css"><link rel="stylesheet" href="https://static.lixfio.huiyuanai.cn/static/css/gitalk.css"><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/style.css"><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/highlight.css"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">临时复制粘贴处</h1><a id="logo" href="/.">李小飞</a><p class="description">记录工作中遇到的问题</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">临时复制粘贴处</h1><div class="post-meta"><a href="/2019/06/17/textarea/#comments" class="comment-count"></a><p><span class="date">Jun 17, 2019</span><span><a href="/categories/在线工具/" class="category">在线工具</a></span></p></div><div class="post-content"><p>粘贴的东西暂时没地方放？？先保存到这里吧。（您的数据只保存在浏览器本地）</p>
-<p><textarea id="editbox" style="padding:10px;width:80%;margin-left:auto;margin-right:auto;height:350px"> </textarea><br><span id="tips" style="color:red;font-size:12px"></span></p>
-<script>
-    Date.prototype.Format = function(fmt) {
-            var o = {
-                "M+" : this.getMonth() + 1,
-                "d+" : this.getDate(),
-                "h+" : this.getHours(),
-                "m+" : this.getMinutes(),
-                "s+" : this.getSeconds(),
-                "q+" : Math.floor((this.getMonth() + 3) / 3),
-                "S" : this.getMilliseconds()
-            };
-            if (/(y+)/.test(fmt))
-                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-            for (var k in o)
-            if (new RegExp("(" + k + ")").test(fmt))
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            return fmt;
-        }
-
-      var editbox =  document.getElementById("editbox");
-      if(localStorage.autoSave == undefined){
-        localStorage.autoSave = "";
-      }
-    editbox.value = localStorage.autoSave;
-      setInterval(function(){
-         var value = editbox.value;
-         var saveValue = localStorage.autoSave;
-         if(value != saveValue){
-             localStorage.autoSave = value;
-             document.getElementById("tips").innerText= "内容已经在"+new Date().Format("yyyy-MM-dd hh:mm:ss")+"时自动保存";
-         }
-      },1000 * 3);
-</script>
-
-
-
-
-
-
-
-
-</div><div class="post-copyright"><blockquote><p>原文作者: 李小飞</p><p>原文链接: <a href="https://www.lixf.io/2019/06/17/textarea/">https://www.lixf.io/2019/06/17/textarea/</a></p><p>版权声明: 转载请注明出处(必须保留作者署名及链接)</p></blockquote></div><div class="tags"><a href="/tags/在线工具/">在线工具</a><a href="/tags/临时保存/">临时保存</a></div><div class="post-share"><div class="social-share"><span>分享到:</span></div></div><div class="post-nav"><a href="/2019/06/28/My-personal-bookmarks/" class="pre">我的私人书签记录</a><a href="/2019/06/13/docker-pull-remote-error-tls-handshake-failure/" class="next">docker下载镜像的时候出现handshake failure</a></div><div id="comments"><div id="container"><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/gitalk.min.js"></script><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/md5.js"></script><script>var gitalk = new Gitalk({
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="李小飞的博客"><title>just a test | 李小飞</title><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/font.css"><link rel="stylesheet" href="https://static.lixfio.huiyuanai.cn/static/css/gitalk.css"><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/style.css"><link rel="stylesheet" type="text/css" href="https://static.lixfio.huiyuanai.cn/static/css/highlight.css"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">just a test</h1><a id="logo" href="/.">李小飞</a><p class="description">记录工作中遇到的问题</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">just a test</h1><div class="post-meta"><a href="/2021/06/26/just-a-test/#comments" class="comment-count"></a><p><span class="date">Jun 26, 2021</span><span><a href="/categories/测试/" class="category">测试</a></span></p></div><div class="post-content"><p>测试功能是否正常</p>
+</div><div class="post-copyright"><blockquote><p>原文作者: 李小飞</p><p>原文链接: <a href="https://www.lixf.io/2021/06/26/just-a-test/">https://www.lixf.io/2021/06/26/just-a-test/</a></p><p>版权声明: 转载请注明出处(必须保留作者署名及链接)</p></blockquote></div><div class="tags"><a href="/tags/测试/">测试</a></div><div class="post-share"><div class="social-share"><span>分享到:</span></div></div><div class="post-nav"><a href="/2021/05/19/git-set-proxy/" class="next">git和npm设置代理</a></div><div id="comments"><div id="container"><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/gitalk.min.js"></script><script type="text/javascript" src="https://static.lixfio.huiyuanai.cn/static/js/md5.js"></script><script>var gitalk = new Gitalk({
   clientID: 'e0d8e5794f0f40230bf3',
   clientSecret: '0477211910cb015e5d84e861e6d9b556a6c2f23f',
   repo: 'lixiaofei123.github.io',

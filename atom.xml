@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.lixf.io/"/>
-  <updated>2021-05-19T08:07:21.684Z</updated>
+  <updated>2021-06-26T12:45:13.957Z</updated>
   <id>https://www.lixf.io/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>just a test</title>
+    <link href="https://www.lixf.io/2021/06/26/just-a-test/"/>
+    <id>https://www.lixf.io/2021/06/26/just-a-test/</id>
+    <published>2021-06-26T12:44:46.000Z</published>
+    <updated>2021-06-26T12:45:13.957Z</updated>
+    
+    <content type="html"><![CDATA[<p>测试功能是否正常</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;测试功能是否正常&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+      <category term="测试" scheme="https://www.lixf.io/categories/%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="测试" scheme="https://www.lixf.io/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>git和npm设置代理</title>
@@ -546,34 +572,6 @@
       <category term="在线工具" scheme="https://www.lixf.io/tags/%E5%9C%A8%E7%BA%BF%E5%B7%A5%E5%85%B7/"/>
     
       <category term="临时保存" scheme="https://www.lixf.io/tags/%E4%B8%B4%E6%97%B6%E4%BF%9D%E5%AD%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>docker下载镜像的时候出现handshake failure</title>
-    <link href="https://www.lixf.io/2019/06/13/docker-pull-remote-error-tls-handshake-failure/"/>
-    <id>https://www.lixf.io/2019/06/13/docker-pull-remote-error-tls-handshake-failure/</id>
-    <published>2019-06-13T11:38:59.000Z</published>
-    <updated>2021-03-26T10:30:58.127Z</updated>
-    
-    <content type="html"><![CDATA[<p>在使用k8s的时候，发现pod的状态都是ImagePullError，查看pod的状态发现在pull镜像的时候，报下面的错误</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error response from daemon: Get https://quay.io/v2/: remote error: tls: handshake failure</span><br></pre></td></tr></table></figure><p>在pod所运行的服务器上执行curl <a href="https://www.baidu.com也报了下面的错误" target="_blank" rel="noopener">https://www.baidu.com也报了下面的错误</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-master ~]# curl https://www.baidu.com</span><br><span class="line">curl: (60) Peer&apos;s Certificate issuer is not recognized.</span><br><span class="line">More details here: http://curl.haxx.se/docs/sslcerts.html</span><br><span class="line"></span><br><span class="line">curl performs SSL certificate verification by default, using a &quot;bundle&quot;</span><br><span class="line"> of Certificate Authority (CA) public keys (CA certs). If the default</span><br><span class="line"> bundle file isn&apos;t adequate, you can specify an alternate file</span><br><span class="line"> using the --cacert option.</span><br><span class="line">If this HTTPS server uses a certificate signed by a CA represented in</span><br><span class="line"> the bundle, the certificate verification probably failed due to a</span><br><span class="line"> problem with the certificate (it might be expired, or the name might</span><br><span class="line"> not match the domain name in the URL).</span><br><span class="line">If you&apos;d like to turn off curl&apos;s verification of the certificate, use</span><br><span class="line"> the -k (or --insecure) option.</span><br></pre></td></tr></table></figure><p>在<strong>stackoverflow</strong>上找到了问题的答案（原网址忘记了保存），那就是当前服务器的时间不对，可能差个几秒或者几十秒，解决办法就是同步一下当前服务器的时间。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntpdate ntp1.aliyun.com</span><br></pre></td></tr></table></figure><p>同步之后问题解决。</p><p>当然出现问题的原因可能有很多种，不一定能解决多有的此类问题。</p><p>为了防止后面出现同样的问题，可以将这条命令写到定时任务里。输入下面的命令打开定时任务的编辑窗口（如果没有安装crontab需要先安装一下）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure><p>在里面加上这么一行命令,让每隔1分钟同步一下时间。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/1 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &gt; /dev/null 2&gt;&amp;1; /sbin/hwclock -w</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;在使用k8s的时候，发现pod的状态都是ImagePullError，查看pod的状态发现在pull镜像的时候，报下面的错误&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;sp
-      
-    
-    </summary>
-    
-      <category term="kubernetes" scheme="https://www.lixf.io/categories/kubernetes/"/>
-    
-    
-      <category term="kubernetes" scheme="https://www.lixf.io/tags/kubernetes/"/>
-    
-      <category term="docker" scheme="https://www.lixf.io/tags/docker/"/>
     
   </entry>
   
