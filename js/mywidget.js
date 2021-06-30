@@ -2,6 +2,22 @@ window.onload = function(){
     showPostQRCode()
     loadPostAttachments()
     addCopyBtn();
+	checkUpdateTime();
+}
+
+function checkUpdateTime(){
+	let timearray = [...window.location.pathname.matchAll(/(\d{4})\/(\d{2})\/(\d{2})/g)][0].splice(1,3)
+	let year = parseInt(timearray[0])
+	let month = parseInt(timearray[1])
+	let day = parseInt(timearray[2])
+	let daysApart = parseInt((new Date().getTime() - new Date(year,month,day)) / 1000 / 60 / 60 / 24)
+	if(daysApart >= 180){
+		let updateTime = year + '年' + month + '月' + day + '日'
+		document.getElementsByClassName("post-note")[0].innerHTML = `<div style="border:1px solid #ffbb76;color:#db7c22;padding:15px;margin:20px 0px;border-radius: 5px;background:#fffcef">
+		<div style="margin-bottom:8px;font-size:16px"><b>请注意</b></div>
+		<div style="font-size:14px;line-height:24px">本文最后更新于${updateTime}，距今天已经有${daysApart}天，由于系统更新、软件更替等原因，本文所传达的信息或者技术可能已经过时。</div>
+	</div>`
+	}
 }
 
 function addCopyBtn(){
