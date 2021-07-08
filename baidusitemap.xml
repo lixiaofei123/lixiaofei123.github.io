@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.lixf.io/2021/07/06/deploy-a-gitlab-server/</loc>
+    <lastmod>2021-07-08</lastmod>
+  </url>  <url>
+    <loc>https://www.lixf.io/2021/06/30/a-image-host-made-by-myself/</loc>
+    <lastmod>2021-06-30</lastmod>
+  </url>  <url>
     <loc>https://www.lixf.io/2020/05/07/Replace-the-local-path-pictures-in-markdown-with-network-pictures/</loc>
     <lastmod>2021-06-30</lastmod>
   </url>  <url>
